@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ReservaHotel.Data\ReservaHotel.Data.csproj" />
+    <ProjectReference Include="..\ReservaHotel.Domain\ReservaHotel.Domain.csproj" />
+    <ProjectReference Include="..\ReservaHotel.Extensions\ReservaHotel.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>
