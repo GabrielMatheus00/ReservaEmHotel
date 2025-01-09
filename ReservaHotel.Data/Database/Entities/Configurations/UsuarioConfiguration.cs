@@ -14,6 +14,7 @@ namespace ReservaHotel.Data.Database.Entities.Configurations
             builder.Property(u => u.Ativo).IsRequired().HasDefaultValue(true);
             builder.Property(u => u.Email).IsRequired().HasMaxLength(70);
             builder.Property(u => u.Senha).IsRequired().HasMaxLength(100);
+            builder.Property(u => u.Nome).IsRequired().HasDefaultValue(100);
         }
     }
 }

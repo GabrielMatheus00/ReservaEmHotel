@@ -2,6 +2,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ReservaHotel.Apresentation.Configuration;
 using ReservaHotel.Data.DataAccessLayer;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Classes;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Interfaces;
@@ -30,7 +31,7 @@ var connectionString = builder.Configuration.GetConnectionString("HotelDatabase"
 
 
 builder.Services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(connectionString));
-
+builder.Services.Configure<Configuracoes>(builder.Configuration);
 
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();
 builder.Services.AddScoped<IQuartoRepository, QuartoRepository>();
