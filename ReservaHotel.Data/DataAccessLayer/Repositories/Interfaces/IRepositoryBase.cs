@@ -15,5 +15,6 @@ namespace ReservaHotel.Data.DataAccessLayer.Repositories.Interfaces
         void Atualizar(T entity);
         T? BuscarPorId(Guid id);
         IEnumerable<T> BuscarTodos(Expression<Func<T, bool>> where);
+        T? BuscarUm(Expression<Func<T, bool>> where);
     }
 }

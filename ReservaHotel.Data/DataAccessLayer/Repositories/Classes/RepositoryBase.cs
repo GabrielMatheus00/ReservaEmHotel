@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,7 +40,7 @@ namespace ReservaHotel.Data.DataAccessLayer.Repositories.Classes
         {
             return _dbContext.Set<T>().Where(where);
         }
-
+        public T? BuscarUm(Expression<Func<T, bool>> where) => _dbContext.Set<T>().FirstOrDefault(where);
         public bool Remover(Guid id)
         {
             var entity = BuscarPorId(id);

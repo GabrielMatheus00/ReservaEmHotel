@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ReservaHotel.Apresentation.Configuration;
 using Microsoft.Extensions.Hosting;
 using ReservaHotel.Data.DataAccessLayer;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Classes;
@@ -34,8 +35,7 @@ var connectionString = builder.Configuration.GetConnectionString("HotelDatabase"
 
 
 builder.Services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(connectionString));
-builder.Services.Configure<AppConfig>(
-    builder.Configuration.GetSection("AppConfigs"));
+builder.Services.Configure<Configuracoes>(builder.Configuration);
 
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();
 builder.Services.AddScoped<IQuartoRepository, QuartoRepository>();
