@@ -18,12 +18,16 @@ namespace ReservaHotel.Data.DataAccessLayer
             _dbContext = dbContext;
             HotelRepository = new HotelRepository(dbContext);
             QuartoRepository = new QuartoRepository(dbContext);
+            UsuarioRepository = new UsuarioRepository(dbContext);
         }
         public IHotelRepository HotelRepository { get; }
         public IQuartoRepository QuartoRepository { get; }
-        public void SalvarAlteracoes()
+
+        public IUsuarioRepository UsuarioRepository { get; }
+
+        public async Task SalvarAlteracoes()
         {
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

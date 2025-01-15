@@ -1,18 +1,18 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReservaHotel.Apresentation.Configuration;
 using ReservaHotel.Data.DataAccessLayer;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Classes;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Interfaces;
 using ReservaHotel.Data.Database;
-using ReservaHotel.Data.Database.Entities;
 using ReservaHotel.Domain.Mapping;
 using ReservaHotel.Domain.Model.DTOs;
+using ReservaHotel.Extensions.Extensions;
 using ReservaHotel.Extensions.Validators.Hotel;
 using ReservaHotel.Services.Services;
 using ReservaHotel.Services.Services.Interfaces;
+using System.Reflection;
 using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +24,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(cfg =>
 {
-    cfg.AddProfile<HotelMapping>();
+    var executingAssembly = Assembly.GetExecutingAssembly();
+    cfg.AddMaps(new[]
+    {
+        typeof(HotelMapping)
+    });
 }
 );
 var connectionString = builder.Configuration.GetConnectionString("HotelDatabase");
@@ -32,14 +36,7 @@ var connectionString = builder.Configuration.GetConnectionString("HotelDatabase"
 
 builder.Services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.Configure<Configuracoes>(builder.Configuration);
-
-builder.Services.AddScoped<IHotelRepository, HotelRepository>();
-builder.Services.AddScoped<IQuartoRepository, QuartoRepository>();
-builder.Services.AddScoped<IHotelService, HotelService>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-builder.Services.AddValidatorsFromAssemblyContaining<AddHotelValidator>();
-builder.Services.AddScoped<IValidator<AddUpdateHotelDTO>, AddHotelValidator>();
+builder.Services.InjecaoDeDependencia();
 
 var app = builder.Build();
 

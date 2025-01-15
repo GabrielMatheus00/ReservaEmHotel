@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ReservaHotel.Apresentation.Configuration;
@@ -22,18 +24,34 @@ namespace ReservaHotel.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly string _chavePrivada;
-        private readonly int _horasExpiracaoToken; 
-        public UsuarioService(IUnitOfWork unitOfWork, IOptions<Configuracoes> options)
+        private readonly int _horasExpiracaoToken;
+        private readonly IMapper _mapper;
+        public UsuarioService(IUnitOfWork unitOfWork, IOptions<Configuracoes> options, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _chavePrivada = options.Value.ChavePrivadaJwt;
             _horasExpiracaoToken = Convert.ToInt32(options.Value.HorasExpiracaoToken);
-
+            _mapper = mapper;
         }
 
-        public ResponseBase<Guid> CadastroUsuario(CadastroUsuarioDTO dto)
+        public async Task<ResponseBase<Guid>> CadastroUsuario(CadastroUsuarioDTO dto)
         {
-            throw new NotImplementedException();
+            ResponseBase<Guid> resposta = new ResponseBase<Guid>();
+            try
+            {
+                string hashSenha = GeraHashDaSenha(dto.Senha);
+                Usuario usuario = _mapper.Map<Usuario>(dto);
+                _unitOfWork.UsuarioRepository.Adicionar(usuario);
+                await _unitOfWork.SalvarAlteracoes();
+                resposta.AddSuccess("Usuario criado com sucesso");
+                resposta.Data = usuario.Id;
+            }
+            catch(Exception ex)
+            {
+                resposta.AddError(ex.Message);
+            }
+           
+            return resposta;
         }
 
         public ResponseBase<string> Login(LoginDTO dto)
@@ -44,7 +62,7 @@ namespace ReservaHotel.Services.Services
                 string senhaCriptografada = GeraHashDaSenha(dto.Senha);
                 Usuario? usuario = _unitOfWork.UsuarioRepository.BuscarUm(u => u.Ativo && (u.Login == dto.Login || u.Email == dto.Login) && u.Senha == senhaCriptografada);
                 if (usuario is null)
-                    throw new Exception("Não foi possível realizar o login. Por favor verifique as credenciais");
+                    throw new ArgumentException("Não foi possível realizar o login. Por favor verifique as credenciais");
                 this.GeraToken(usuario, ref resposta);
             }
             catch (Exception ex) 
@@ -90,7 +108,9 @@ namespace ReservaHotel.Services.Services
 
         private string GeraHashDaSenha(string senha)
         {
-            return "dashuodhuaos";
+            var hasher = new PasswordHasher<string>();
+            string passwordHash = hasher.HashPassword(null,senha);
+            return passwordHash;
         }
     }
 }

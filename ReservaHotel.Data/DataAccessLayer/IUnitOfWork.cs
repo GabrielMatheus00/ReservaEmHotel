@@ -13,6 +13,6 @@ namespace ReservaHotel.Data.DataAccessLayer
         IQuartoRepository QuartoRepository { get; }
 
         IUsuarioRepository UsuarioRepository { get; }
-        void SalvarAlteracoes();
+        Task SalvarAlteracoes();
     }
 }

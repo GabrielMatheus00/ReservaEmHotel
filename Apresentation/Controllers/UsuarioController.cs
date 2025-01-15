@@ -20,6 +20,7 @@ namespace ReservaHotel.Apresentation.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [Route("Login")]
         public IActionResult Login(LoginDTO dto)
         {
             var response = _usuarioService.Login(dto);
@@ -28,9 +29,10 @@ namespace ReservaHotel.Apresentation.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Cadastro(CadastroUsuarioDTO dto)
+        [Route("Cadastro")]
+        public async Task<IActionResult> Cadastro(CadastroUsuarioDTO dto)
         {
-            var response = _usuarioService.CadastroUsuario(dto);
+            var response = await _usuarioService.CadastroUsuario(dto);
             return Ok(response);
         }
     }
