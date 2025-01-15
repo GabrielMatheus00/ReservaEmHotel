@@ -17,6 +17,7 @@ using ReservaHotel.Extensions.Extensions.Hangfire;
 using ReservaHotel.Extensions.Validators.Hotel;
 using ReservaHotel.Services.Services;
 using ReservaHotel.Services.Services.Interfaces;
+using System.Reflection;
 using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +29,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(cfg =>
 {
-    cfg.AddProfile<HotelMapping>();
+    var executingAssembly = Assembly.GetExecutingAssembly();
+    cfg.AddMaps(new[]
+    {
+        typeof(HotelMapping)
+    });
 }
 );
 var connectionString = builder.Configuration.GetConnectionString("HotelDatabase");

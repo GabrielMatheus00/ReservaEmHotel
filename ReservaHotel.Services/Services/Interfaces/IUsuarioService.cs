@@ -11,7 +11,7 @@ namespace ReservaHotel.Services.Services.Interfaces
 {
     public interface IUsuarioService
     {
-        public ResponseBase<Guid> CadastroUsuario(CadastroUsuarioDTO dto);
+        public Task<ResponseBase<Guid>> CadastroUsuario(CadastroUsuarioDTO dto);
         public ResponseBase<string> Login(LoginDTO dto);
     }
 }
