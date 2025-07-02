@@ -3,7 +3,7 @@ using ReservaHotel.Data.DataAccessLayer;
 using ReservaHotel.Data.Database;
 using ReservaHotel.Data.Database.Entities;
 using ReservaHotel.Data.ResponseMapping;
-using ReservaHotel.Domain.Model.DTOs;
+using ReservaHotel.Domain.Model.DTOs.Hotel;
 using ReservaHotel.Domain.Model.DTOs.Quarto;
 using ReservaHotel.Services.Services.Interfaces;
 
@@ -19,7 +19,7 @@ namespace ReservaHotel.Services.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public ResponseBase<Guid> AdicionaHotel(AddUpdateHotelDTO dto)
+        public ResponseBase<Guid> AdicionaHotel(AddHotelDTO dto)
         {
             ResponseBase<Guid> response = new ResponseBase<Guid>();
             try
@@ -82,13 +82,11 @@ namespace ReservaHotel.Services.Services
             }
             return response;
         }
-        public ResponseBase<string> EditaHotel(AddUpdateHotelDTO dto)
+        public ResponseBase<string> EditaHotel(UpdateHotelDTO dto)
         {
             var response = new ResponseBase<string>();
             try
             {
-                if (Guid.Empty == dto.Id)
-                    throw new ArgumentException("É necessário informar o id do Hotel");
                 var hotel = _unitOfWork.HotelRepository.BuscarPorId(dto.Id);
                 if (hotel == null)
                     throw new Exception("Hotel não encontrado");

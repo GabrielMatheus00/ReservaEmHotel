@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using ReservaHotel.Domain.Model.DTOs;
+using ReservaHotel.Domain.Model.DTOs.Hotel;
 using ReservaHotel.Domain.Model.DTOs.Quarto;
 using ReservaHotel.Services.Services.Interfaces;
 
@@ -17,7 +17,7 @@ namespace ReservaHotel.Apresentation.Controllers
         }
 
         [HttpPost("/cadastro")]
-        public IActionResult CadastraHotel(AddUpdateHotelDTO dto)
+        public IActionResult CadastraHotel(AddHotelDTO dto)
         {
             var response = _hotelService.AdicionaHotel(dto);
             if (response.Success)
@@ -52,7 +52,7 @@ namespace ReservaHotel.Apresentation.Controllers
         }
 
         [HttpPut("/atualizacao")]
-        public IActionResult AtualizaHotel(AddUpdateHotelDTO dto)
+        public IActionResult EditaHotel(UpdateHotelDTO dto)
         {
             var response = _hotelService.EditaHotel(dto);
             if(response.Success)

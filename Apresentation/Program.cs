@@ -2,13 +2,14 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using ReservaHotel.Data.DataAccessLayer;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Classes;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Interfaces;
 using ReservaHotel.Data.Database;
 using ReservaHotel.Data.Database.Entities;
 using ReservaHotel.Domain.Mapping;
-using ReservaHotel.Domain.Model.DTOs;
+using ReservaHotel.Domain.Model.DTOs.Hotel;
 using ReservaHotel.Extensions.Validators.Hotel;
 using ReservaHotel.Services.Services;
 using ReservaHotel.Services.Services.Interfaces;
@@ -38,7 +39,7 @@ builder.Services.AddScoped<IHotelService, HotelService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<AddHotelValidator>();
-builder.Services.AddScoped<IValidator<AddUpdateHotelDTO>, AddHotelValidator>();
+builder.Services.AddScoped<IValidator<AddHotelDTO>, AddHotelValidator>();
 
 var app = builder.Build();
 
@@ -51,6 +52,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<HotelDbContext>();
+    await db.Database.MigrateAsync();
+}
+
 app.Run();

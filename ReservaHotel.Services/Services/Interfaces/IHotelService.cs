@@ -1,7 +1,7 @@
 ﻿using ReservaHotel.Data.Database;
 using ReservaHotel.Data.Database.Entities;
 using ReservaHotel.Data.ResponseMapping;
-using ReservaHotel.Domain.Model.DTOs;
+using ReservaHotel.Domain.Model.DTOs.Hotel;
 using ReservaHotel.Domain.Model.DTOs.Quarto;
 using System;
 using System.Collections.Generic;
@@ -13,8 +13,8 @@ namespace ReservaHotel.Services.Services.Interfaces
 {
     public interface IHotelService
     {
-        public ResponseBase<Guid> AdicionaHotel(AddUpdateHotelDTO hotel);
-        public ResponseBase<string> EditaHotel(AddUpdateHotelDTO hotel);
+        public ResponseBase<Guid> AdicionaHotel(AddHotelDTO hotel);
+        public ResponseBase<string> EditaHotel(UpdateHotelDTO hotel);
         public ResponseBase<Guid> RemoveHotel(Guid id);
         public ResponseBase<Hotel> BuscaHotel(Guid id);
 
