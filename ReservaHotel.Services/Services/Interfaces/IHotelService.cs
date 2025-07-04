@@ -18,12 +18,10 @@ namespace ReservaHotel.Services.Services.Interfaces
         public ResponseBase<Guid> RemoveHotel(Guid id);
         public ResponseBase<Hotel> BuscaHotel(Guid id);
 
-        public ResponseBase<Guid> AdicionaQuarto(AddUpdateQuartoDTO dto);
+
 
         public ResponseBase<List<Hotel>> BuscaHoteis();
-        public ResponseBase<string> EditaQuarto(AddUpdateQuartoDTO dto);
-        public ResponseBase<Guid> RemoveQuarto(Guid id);
-        public ResponseBase<Quarto> BuscaQuarto(Guid id);
+
         public ResponseBase<List<Quarto>> BuscaQuartosPorHotel(Guid id);
     }
 }

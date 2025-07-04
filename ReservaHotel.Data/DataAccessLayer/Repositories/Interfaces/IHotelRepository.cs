@@ -9,5 +9,6 @@ namespace ReservaHotel.Data.DataAccessLayer.Repositories.Interfaces
 {
     public interface IHotelRepository:IRepositoryBase<Hotel>
     {
+        public Hotel BuscaHotelComQuartos(Guid hotelId);
     }
 }

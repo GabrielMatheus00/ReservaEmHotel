@@ -11,9 +11,11 @@ namespace ReservaHotel.Apresentation.Controllers
     public class HotelController:ControllerBase
     {
         private readonly IHotelService _hotelService;
-        public HotelController(IHotelService hotelService)
+        private readonly IQuartoService _quartoService;
+        public HotelController(IHotelService hotelService, IQuartoService quartoService)
         {
-            _hotelService =  hotelService;
+            _hotelService = hotelService;
+            _quartoService = quartoService;
         }
 
         [HttpPost("/cadastro")]
@@ -62,7 +64,7 @@ namespace ReservaHotel.Apresentation.Controllers
         [HttpPost("/quarto")]
         public IActionResult CadastraQuarto(AddUpdateQuartoDTO dto)
         {
-            var response = _hotelService.AdicionaQuarto(dto);
+            var response = _quartoService.CadastraQuarto(dto);
             if (response.Success)
                 return CreatedAtAction(nameof(CadastraQuarto), response.Data);
             return BadRequest(response);
@@ -71,7 +73,7 @@ namespace ReservaHotel.Apresentation.Controllers
         [HttpPatch("/quarto")]
         public IActionResult AtualizaQuarto(AddUpdateQuartoDTO dto) 
         {
-            var response = _hotelService.EditaQuarto(dto);
+            var response = _quartoService.EditaQuarto(dto);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);
@@ -79,15 +81,15 @@ namespace ReservaHotel.Apresentation.Controllers
         [HttpDelete("/quarto/{id}")]
         public IActionResult RemoveQuarto(Guid id)
         {
-            var response = _hotelService.RemoveQuarto(id);
-            if(response.Success)
+            var response = _quartoService.RemoveQuarto(id);
+            if(response.Success)    
                 return Ok(response);
             return BadRequest(response);
         }
         [HttpGet("/quarto/{id}")]
         public IActionResult BuscaQuarto(Guid id)
         {
-            var response = _hotelService.BuscaQuarto(id);
+            var response = _quartoService.BuscaQuarto(id);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

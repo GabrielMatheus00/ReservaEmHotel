@@ -19,5 +19,11 @@ namespace ReservaHotel.Data.DataAccessLayer.Repositories.Classes
             _dbContext = dbContext ;
         }
 
+        public Hotel BuscaHotelComQuartos(Guid hotelId)
+        {
+            var hotel = _dbContext.Set<Hotel>().Include(a => a.Quartos).FirstOrDefault(h => h.Ativo && h.Id == hotelId);
+            return hotel;
+        }
+
     }
 }

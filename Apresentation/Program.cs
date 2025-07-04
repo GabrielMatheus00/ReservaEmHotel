@@ -36,6 +36,7 @@ builder.Services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(co
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();
 builder.Services.AddScoped<IQuartoRepository, QuartoRepository>();
 builder.Services.AddScoped<IHotelService, HotelService>();
+builder.Services.AddScoped<IQuartoService, QuartoService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<AddHotelValidator>();

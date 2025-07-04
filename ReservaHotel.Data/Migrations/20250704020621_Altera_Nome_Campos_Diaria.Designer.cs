@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReservaHotel.Data.Database;
 
@@ -11,9 +12,11 @@ using ReservaHotel.Data.Database;
 namespace ReservaHotel.Data.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250704020621_Altera_Nome_Campos_Diaria")]
+    partial class Altera_Nome_Campos_Diaria
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,8 +145,10 @@ namespace ReservaHotel.Data.Migrations
                     b.Property<int>("TipoQuarto")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("UltimaAtualizacaoPreco")
-                        .HasColumnType("datetime2(7)");
+                    b.Property<DateTime>("UltimaAtualizacaoPreco")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(7)")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.HasKey("Id");
 

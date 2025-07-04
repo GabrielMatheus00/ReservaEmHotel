@@ -13,6 +13,7 @@ namespace ReservaHotel.Data.DataAccessLayer.Repositories.Classes
     {
         public QuartoRepository(HotelDbContext dbContext) : base(dbContext)
         {
+
         }
     }
 }
