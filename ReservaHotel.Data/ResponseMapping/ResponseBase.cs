@@ -29,6 +29,15 @@ namespace ReservaHotel.Data.ResponseMapping
         {
             this.AddMessage(content, TypeMessage.Error);
         }
+        public void AddErrosValidacao(List<string> erros)
+        {
+            if (erros == null || !erros.Any())
+                return;
+            foreach(string erro in erros)
+            {
+                this.AddError(erro);
+            }
+        }
     }
     
 }

@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using ReservaHotel.Data.DataAccessLayer;
 using ReservaHotel.Data.Database;
+using ReservaHotel.Data.Database.Entities;
 using ReservaHotel.Data.ResponseMapping;
 using ReservaHotel.Domain.Model.DTOs.Quarto;
+using ReservaHotel.Extensions.Exceptions;
+using ReservaHotel.Extensions.Validators.Quarto;
 using ReservaHotel.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,13 +29,22 @@ namespace ReservaHotel.Services.Services
             ResponseBase<Guid> response = new ResponseBase<Guid>();
             try
             {
-                QuartoValido(dto);
+                var validacao = new AddUpdateQuartoValidator().Validate(dto);
+                if (!validacao.IsValid)
+                    throw new ValidacaoException(validacao.Errors);
+                ValidaAddUpdateQuarto(dto);
+                
                 Quarto quarto = _mapper.Map<Quarto>(dto);
                 quarto.Ativo = true;
                 _unitOfWork.QuartoRepository.Adicionar(quarto);
                 _unitOfWork.SalvarAlteracoes();
                 response.AddSuccess("Quarto cadastrado com sucesso");
                 response.Data = quarto.Id;
+            }
+            catch (ValidacaoException ex)
+            {
+                response.Data = Guid.Empty;
+                response.AddErrosValidacao(ex.Erros);
             }
             catch (Exception ex)
             {
@@ -68,8 +80,12 @@ namespace ReservaHotel.Services.Services
             var response = new ResponseBase<string>();
             try
             {
-                if (dto.Id == Guid.Empty)
+                if (dto.Id == Guid.Empty)   
                     throw new ArgumentNullException("É necessário informar o id do quarto");
+                 var validacao = new AddUpdateQuartoValidator(editando:true).Validate(dto);
+                if (!validacao.IsValid)
+                    throw new ValidacaoException(validacao.Errors);
+                ValidaAddUpdateQuarto(dto);
                 Quarto? quarto = _unitOfWork.QuartoRepository.BuscarPorId(dto.Id);
                 if (quarto == null)
                     throw new Exception("Quarto não encontrado");
@@ -77,6 +93,11 @@ namespace ReservaHotel.Services.Services
                 _unitOfWork.QuartoRepository.Atualizar(quarto);
                 _unitOfWork.SalvarAlteracoes();
                 response.AddSuccess("Quarto atualizado com sucesso");
+            }
+            catch (ValidacaoException ex)
+            {
+                response.Data = null;
+                response.AddErrosValidacao(ex.Erros);
             }
             catch (Exception ex)
             {
@@ -106,15 +127,38 @@ namespace ReservaHotel.Services.Services
             }
             return response;
         }
-        private void QuartoValido(AddUpdateQuartoDTO quarto)
+        private void ValidaAddUpdateQuarto(AddUpdateQuartoDTO quarto)
         {
             var hotel = _unitOfWork.HotelRepository.BuscaHotelComQuartos(quarto.HotelId);
+            ValidaQuarto(hotel, quarto);
+        }
+
+        private void ValidaQuarto(Hotel hotel, AddUpdateQuartoDTO dto)
+        {
             if (hotel is null)
                 throw new ArgumentException("Não foi possível encontrar o hotel!");
-            if (hotel.Quartos.Any(q => q.Andar == quarto.Andar && quarto.Numero == q.Numero && q.Ativo))
+            if (hotel.Quartos.Any(q => (dto.Andar.HasValue && q.Andar == dto.Andar ) && dto.Numero == q.Numero && q.Ativo && q.Id != dto.Id))
                 throw new ArgumentException("Já um hotel com esse número no andar em questão!");
-            if (quarto.Andar > hotel.Andares)
+            if (dto.Andar> hotel.Andares)
                 throw new ArgumentException("Número de andar inválido para o hotel em questão!");
+        }
+        public ResponseBase<List<Quarto>> BuscaQuartosPorHotel(Guid hotelId)
+        {
+            ResponseBase<List<Quarto>> response = new ResponseBase<List<Quarto>>();
+            try
+            {
+                if (hotelId == Guid.Empty)
+                    throw new ArgumentNullException("É necessário informar o id do hotel");
+                List<Quarto> quartos = _unitOfWork.QuartoRepository.BuscarTodos(q => q.HotelId == hotelId && q.Ativo).ToList();
+                response.Data = quartos;
+
+            }
+            catch (Exception ex)
+            {
+                response.Data = null;
+                response.AddError(ex.Message);
+            }
+            return response;
         }
     }
 }

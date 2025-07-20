@@ -98,7 +98,7 @@ namespace ReservaHotel.Apresentation.Controllers
         [HttpGet("/hotel/quartos/{hotelId}")]
         public IActionResult BuscaQuartosPorHotel(Guid hotelId)
         {
-            var response = _hotelService.BuscaQuartosPorHotel(hotelId);
+            var response = _quartoService.BuscaQuartosPorHotel(hotelId);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);

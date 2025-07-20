@@ -22,6 +22,5 @@ namespace ReservaHotel.Services.Services.Interfaces
 
         public ResponseBase<List<Hotel>> BuscaHoteis();
 
-        public ResponseBase<List<Quarto>> BuscaQuartosPorHotel(Guid id);
     }
 }

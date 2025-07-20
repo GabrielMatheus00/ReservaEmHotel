@@ -127,27 +127,6 @@ namespace ReservaHotel.Services.Services
         }
 
 
-        
-
-        
-
-        public ResponseBase<List<Quarto>> BuscaQuartosPorHotel(Guid hotelId)
-        {
-            ResponseBase<List<Quarto>> response = new ResponseBase<List<Quarto>>();
-            try
-            {
-                if (hotelId == Guid.Empty)
-                    throw new ArgumentNullException("É necessário informar o id do hotel");
-                List<Quarto> quartos = _unitOfWork.QuartoRepository.BuscarTodos(q => q.HotelId == hotelId).ToList();
-                response.Data = quartos;
-
-            }
-            catch(Exception ex)
-            {
-                response.Data = null;
-                response.AddError(ex.Message);
-            }
-            return response;
-        }
+       
     }
 }

@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-builder.Services.AddFluentValidationAutoValidation();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(cfg =>
@@ -38,8 +38,6 @@ builder.Services.AddScoped<IQuartoRepository, QuartoRepository>();
 builder.Services.AddScoped<IHotelService, HotelService>();
 builder.Services.AddScoped<IQuartoService, QuartoService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-builder.Services.AddValidatorsFromAssemblyContaining<AddHotelValidator>();
 builder.Services.AddScoped<IValidator<AddHotelDTO>, AddHotelValidator>();
 
 var app = builder.Build();

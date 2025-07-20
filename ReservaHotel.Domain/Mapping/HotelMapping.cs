@@ -27,12 +27,13 @@ namespace ReservaHotel.Domain.Mapping
 
             #region Quarto
             CreateMap<AddUpdateQuartoDTO, Quarto>()
-                .ForMember(q => q.Numero, opts => opts.MapFrom((src,dest) => this.PreservaValor(src.Numero, dest.Numero)))
+                .ForMember(q => q.Numero, opts => opts.MapFrom((src, dest) => this.PreservaValor(src.Numero, dest.Numero)))
                 .ForMember(q => q.Tamanho, opts => opts.MapFrom((src, dest) => this.PreservaValor(src.Tamanho, dest.Tamanho)))
                 .ForMember(q => q.Ocupacao, opts => opts.MapFrom((src, dest) => this.PreservaValor(src.Ocupacao, dest.Ocupacao)))
                 .ForMember(q => q.DiariaDolar, opts => opts.MapFrom((src, dest) => this.PreservaValor(src.DiariaDolar, dest.DiariaDolar)))
                 .ForMember(q => q.Andar, opts => opts.MapFrom((src, dest) => this.PreservaValor(src.Andar, dest.Andar)))
-                .ForMember(q => q.TipoQuarto, opts => opts.MapFrom((src, dest) => (TipoQuarto)this.PreservaValor((int)src.TipoQuarto, (int)src.TipoQuarto)))
+                .ForMember(q => q.TipoQuarto, opts => opts.MapFrom((src, dest) => (TipoQuarto)this.PreservaValor((int?)(src.TipoQuarto), (int)dest.TipoQuarto)))
+                .ForMember(q => q.HotelId, opts => opts.MapFrom((src, dest) => src.HotelId == Guid.Empty ? dest.HotelId : src.HotelId ))
                 .ReverseMap();
             #endregion
 
