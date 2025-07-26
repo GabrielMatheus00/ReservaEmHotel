@@ -11,6 +11,7 @@ namespace ReservaHotel.Data.DataAccessLayer
     {
         IHotelRepository HotelRepository { get; }
         IQuartoRepository QuartoRepository { get; }
+        ICotacaoMoedaRepository CotacaoMoedaRepository { get; }
         void SalvarAlteracoes();
     }
 }

@@ -10,6 +10,7 @@ namespace ReservaHotel.Extensions.Validators.Quarto
         public AddUpdateQuartoValidator(bool editando = false)
         {
             RuleFor(q => q.Andar).GreaterThanOrEqualTo(0).WithMessage("É necessário informar o andar do quarto").When(q=> q.Andar.HasValue);
+            RuleFor(q => q.Numero).GreaterThanOrEqualTo(1).WithMessage("É necessário que o número do quarto seja no mínimo 1").When(q => q.Numero.HasValue);
             RuleFor(q => q.Tamanho).GreaterThanOrEqualTo(10).WithMessage("O tamanho mínimo de um quarto de hotel é 10m²")
             .When(q => q.Tamanho.HasValue);
 

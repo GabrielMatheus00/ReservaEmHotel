@@ -18,9 +18,11 @@ namespace ReservaHotel.Data.DataAccessLayer
             _dbContext = dbContext;
             HotelRepository = new HotelRepository(dbContext);
             QuartoRepository = new QuartoRepository(dbContext);
+            CotacaoMoedaRepository = new CotacaoMoedaRepository(dbContext);
         }
         public IHotelRepository HotelRepository { get; }
         public IQuartoRepository QuartoRepository { get; }
+        public ICotacaoMoedaRepository CotacaoMoedaRepository { get; }
         public void SalvarAlteracoes()
         {
             _dbContext.SaveChanges();

@@ -7,8 +7,8 @@ using ReservaHotel.Services.Services.Interfaces;
 namespace ReservaHotel.Apresentation.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class HotelController:ControllerBase
+    [Route("[controller]")]
+    public class HotelController:Controller
     {
         private readonly IHotelService _hotelService;
         private readonly IQuartoService _quartoService;
@@ -18,7 +18,7 @@ namespace ReservaHotel.Apresentation.Controllers
             _quartoService = quartoService;
         }
 
-        [HttpPost("/cadastro")]
+        [HttpPost("cadastro")]
         public IActionResult CadastraHotel(AddHotelDTO dto)
         {
             var response = _hotelService.AdicionaHotel(dto);
@@ -35,7 +35,7 @@ namespace ReservaHotel.Apresentation.Controllers
             return NotFound(response);
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public IActionResult BuscaHotel(Guid id)
         {
             var response = _hotelService.BuscaHotel(id);
@@ -44,7 +44,7 @@ namespace ReservaHotel.Apresentation.Controllers
             return NotFound(response);
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult RemoveHotel(Guid id)
         {
             var response = _hotelService.RemoveHotel(id);
@@ -61,7 +61,7 @@ namespace ReservaHotel.Apresentation.Controllers
                 return Ok(response);
             return BadRequest(response);
         }
-        [HttpPost("/quarto")]
+        [HttpPost("quarto")]
         public IActionResult CadastraQuarto(AddUpdateQuartoDTO dto)
         {
             var response = _quartoService.CadastraQuarto(dto);
@@ -70,7 +70,7 @@ namespace ReservaHotel.Apresentation.Controllers
             return BadRequest(response);
         }
 
-        [HttpPatch("/quarto")]
+        [HttpPatch("quarto")]
         public IActionResult AtualizaQuarto(AddUpdateQuartoDTO dto) 
         {
             var response = _quartoService.EditaQuarto(dto);
@@ -78,7 +78,7 @@ namespace ReservaHotel.Apresentation.Controllers
                 return Ok(response);
             return BadRequest(response);
         }
-        [HttpDelete("/quarto/{id}")]
+        [HttpDelete("quarto/{id}")]
         public IActionResult RemoveQuarto(Guid id)
         {
             var response = _quartoService.RemoveQuarto(id);
@@ -86,7 +86,7 @@ namespace ReservaHotel.Apresentation.Controllers
                 return Ok(response);
             return BadRequest(response);
         }
-        [HttpGet("/quarto/{id}")]
+        [HttpGet("quarto/{id}")]
         public IActionResult BuscaQuarto(Guid id)
         {
             var response = _quartoService.BuscaQuarto(id);
@@ -95,7 +95,7 @@ namespace ReservaHotel.Apresentation.Controllers
             return BadRequest(response);
         }
 
-        [HttpGet("/hotel/quartos/{hotelId}")]
+        [HttpGet("hotel/quartos/{hotelId}")]
         public IActionResult BuscaQuartosPorHotel(Guid hotelId)
         {
             var response = _quartoService.BuscaQuartosPorHotel(hotelId);

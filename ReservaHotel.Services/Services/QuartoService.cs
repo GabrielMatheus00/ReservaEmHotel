@@ -75,33 +75,32 @@ namespace ReservaHotel.Services.Services
             return response;
         }
 
-        public ResponseBase<string> EditaQuarto(AddUpdateQuartoDTO dto)
+        public ResponseBase<Guid> EditaQuarto(AddUpdateQuartoDTO dto)
         {
-            var response = new ResponseBase<string>();
+            var response = new ResponseBase<Guid>();
             try
             {
-                if (dto.Id == Guid.Empty)   
-                    throw new ArgumentNullException("É necessário informar o id do quarto");
                  var validacao = new AddUpdateQuartoValidator(editando:true).Validate(dto);
                 if (!validacao.IsValid)
                     throw new ValidacaoException(validacao.Errors);
-                ValidaAddUpdateQuarto(dto);
                 Quarto? quarto = _unitOfWork.QuartoRepository.BuscarPorId(dto.Id);
                 if (quarto == null)
                     throw new Exception("Quarto não encontrado");
+                ValidaAddUpdateQuarto(dto, quarto);
                 quarto = _mapper.Map(dto, quarto);
                 _unitOfWork.QuartoRepository.Atualizar(quarto);
                 _unitOfWork.SalvarAlteracoes();
                 response.AddSuccess("Quarto atualizado com sucesso");
+                response.Data = dto.Id;
             }
             catch (ValidacaoException ex)
             {
-                response.Data = null;
+                response.Data = Guid.Empty;
                 response.AddErrosValidacao(ex.Erros);
             }
             catch (Exception ex)
             {
-                response.Data = null;
+                response.Data = Guid.Empty;
                 response.AddError(ex.Message);
             }
             return response;
@@ -127,18 +126,26 @@ namespace ReservaHotel.Services.Services
             }
             return response;
         }
-        private void ValidaAddUpdateQuarto(AddUpdateQuartoDTO quarto)
+        private void ValidaAddUpdateQuarto(AddUpdateQuartoDTO dto, Quarto quarto = null)
         {
-            var hotel = _unitOfWork.HotelRepository.BuscaHotelComQuartos(quarto.HotelId);
-            ValidaQuarto(hotel, quarto);
+            Guid hotelId = quarto is null ? dto.HotelId : quarto.HotelId;
+            Hotel hotel = _unitOfWork.HotelRepository.BuscaHotelComQuartos(hotelId);
+            ValidaQuarto(hotel, dto, quarto);
         }
 
-        private void ValidaQuarto(Hotel hotel, AddUpdateQuartoDTO dto)
+        private void ValidaQuarto(Hotel hotel, AddUpdateQuartoDTO dto, Quarto quarto = null)
         {
             if (hotel is null)
                 throw new ArgumentException("Não foi possível encontrar o hotel!");
-            if (hotel.Quartos.Any(q => (dto.Andar.HasValue && q.Andar == dto.Andar ) && dto.Numero == q.Numero && q.Ativo && q.Id != dto.Id))
-                throw new ArgumentException("Já um hotel com esse número no andar em questão!");
+            //verifica se vai alterar o andar ou o número do quarto para verificar se já há um quarto com essa configuração
+            if(quarto is not null && (dto.Andar.HasValue || dto.Numero.HasValue))
+            {
+                int andarQuarto = dto.Andar.HasValue ? dto.Andar.Value : quarto.Andar;
+                int numeroQuarto = dto.Numero.HasValue ? dto.Numero.Value : quarto.Numero;
+                if (hotel.Quartos.Any(q =>  q.Andar == andarQuarto && numeroQuarto == q.Numero && q.Ativo && q.Id != dto.Id))
+                    throw new ArgumentException("Já existe um quarto com esse número no andar em questão!");
+            }
+           
             if (dto.Andar> hotel.Andares)
                 throw new ArgumentException("Número de andar inválido para o hotel em questão!");
         }

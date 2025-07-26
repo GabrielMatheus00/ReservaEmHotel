@@ -10,7 +10,7 @@ namespace ReservaHotel.Extensions.Exceptions
     public class ValidacaoException : Exception
     {
 
-        public List<string> Erros { get; private set; }
+        public List<string> Erros { get; private set; } = new List<string>();
         public ValidacaoException()
         {
         }
@@ -20,7 +20,6 @@ namespace ReservaHotel.Extensions.Exceptions
         }
         public ValidacaoException(List<ValidationFailure> erros)
         {
-            Erros = new List<string>();
             foreach(var erro in erros)
             {
                 Erros.Add(erro.ErrorMessage);

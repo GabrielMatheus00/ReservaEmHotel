@@ -1,0 +1,39 @@
+﻿using Hangfire;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ReservaHotel.Extensions.Extensions.Hangfire
+{
+    public static class HangfireConfig
+    {
+
+        public static void ConfigHangfireServer(this IServiceCollection services, string connectionString)
+        {
+            services.AddHangfire(config =>
+            {
+                config.UseSqlServerStorage(connectionString)
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings();
+            }).AddHangfireServer(config =>
+            {
+                config.WorkerCount = 5;
+                config.ServerName = "Hoteis Hangfire";
+            }
+             );
+        }
+        public static void StartDashboard(this WebApplication app)
+        {
+            app.UseHangfireDashboard();
+        }
+        private static void AddTasks()
+        {
+            
+        }
+    }
+}

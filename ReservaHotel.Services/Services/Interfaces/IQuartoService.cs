@@ -12,7 +12,7 @@ namespace ReservaHotel.Services.Services.Interfaces
     public interface IQuartoService
     {
         public ResponseBase<Guid> CadastraQuarto(AddUpdateQuartoDTO dto);
-        public ResponseBase<string> EditaQuarto(AddUpdateQuartoDTO dto);
+        public ResponseBase<Guid> EditaQuarto(AddUpdateQuartoDTO dto);
         public ResponseBase<Guid> RemoveQuarto(Guid id);
         public ResponseBase<Quarto> BuscaQuarto(Guid id);
 

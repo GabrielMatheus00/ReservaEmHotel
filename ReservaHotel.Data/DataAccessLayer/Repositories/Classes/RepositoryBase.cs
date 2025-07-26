@@ -34,6 +34,7 @@ namespace ReservaHotel.Data.DataAccessLayer.Repositories.Classes
             return _dbContext.Set<T>().FirstOrDefault(t=> t.Ativo && id == t.Id);
         }
 
+
         public IEnumerable<T> BuscarTodos(Expression<Func<T, bool>> where)
         {
             return _dbContext.Set<T>().Where(where);
