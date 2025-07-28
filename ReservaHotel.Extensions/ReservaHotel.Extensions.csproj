@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ReservaHotel.Domain\ReservaHotel.Domain.csproj" />
-    <ProjectReference Include="..\ReservaHotel.Services\ReservaHotel.Services.csproj" />
   </ItemGroup>
 
 </Project>

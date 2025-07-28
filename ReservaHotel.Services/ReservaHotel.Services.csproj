@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ReservaHotel.Data\ReservaHotel.Data.csproj" />
     <ProjectReference Include="..\ReservaHotel.Domain\ReservaHotel.Domain.csproj" />
+    <ProjectReference Include="..\ReservaHotel.Extensions\ReservaHotel.Extensions.csproj" />
   </ItemGroup>
 
 </Project>
