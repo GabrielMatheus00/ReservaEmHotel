@@ -18,4 +18,8 @@
   <ItemGroup>
     <ProjectReference Include="..\ReservaHotel.Data\ReservaHotel.Data.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\Configuration\" />
+  </ItemGroup>
 </Project>

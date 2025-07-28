@@ -9,6 +9,8 @@ namespace ReservaHotel.Extensions.Extensions.Hangfire
     public interface IHangfireService
     {
         public Task AtualizaValorDolar();
-        
+        public Task AtualizaPrecoQuartos();
+
+
     }
 }

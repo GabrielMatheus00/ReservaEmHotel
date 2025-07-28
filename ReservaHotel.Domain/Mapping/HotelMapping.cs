@@ -44,6 +44,7 @@ namespace ReservaHotel.Domain.Mapping
         }
         private string PreservaValor(string origem, string destino) => string.IsNullOrEmpty(origem) ? destino : origem;
 
-        private float? PreservaValor(float? origem, float destino) => origem.HasValue ? origem: destino;
+        private float? PreservaValor(float? origem, float destino) => origem.HasValue ? origem : destino;
+        private decimal? PreservaValor(decimal? origem, decimal destino) => origem.HasValue ? origem: destino;
     }
 }

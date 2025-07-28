@@ -16,7 +16,7 @@ namespace ReservaHotel.Domain.Model.DTOs.Quarto
         public string Ocupacao { get; set; }
         public Guid HotelId { get; set; }
         public TipoQuarto? TipoQuarto { get; set; }
-        public float? DiariaDolar { get; set; }
+        public decimal? DiariaDolar { get; set; }
         public Guid Id { get; set; }
     }
 }

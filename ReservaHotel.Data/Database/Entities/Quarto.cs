@@ -12,7 +12,7 @@ public class Quarto : BaseEntity
 
     public int Numero { get; set; }
 
-    public float DiariaDolar { get; set; }
+    public decimal DiariaDolar { get; set; }
 
     public string Ocupacao { get; set; }
 
@@ -26,7 +26,9 @@ public class Quarto : BaseEntity
     public float Tamanho { get; set; }
 
     public DateTime? UltimaAtualizacaoPreco { get; set; }
-    public float DiariaReal { get; set; }
+    public decimal DiariaReal { get; set; }
+    public Guid? CotacaoId { get; set; }
 
     public Hotel Hotel { get; set; }
+    public CotacaoMoeda Cotacacao { get; set; }
 }

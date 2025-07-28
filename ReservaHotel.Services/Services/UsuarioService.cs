@@ -1,22 +1,16 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using ReservaHotel.Apresentation.Configuration;
 using ReservaHotel.Data.DataAccessLayer;
-using ReservaHotel.Data.DataAccessLayer.Repositories.Classes;
 using ReservaHotel.Data.Database.Entities;
 using ReservaHotel.Data.ResponseMapping;
+using ReservaHotel.Domain.Configuration;
 using ReservaHotel.Domain.Model.DTOs.Usuario;
 using ReservaHotel.Services.Services.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ReservaHotel.Services.Services
 {
@@ -26,7 +20,7 @@ namespace ReservaHotel.Services.Services
         private readonly string _chavePrivada;
         private readonly int _horasExpiracaoToken;
         private readonly IMapper _mapper;
-        public UsuarioService(IUnitOfWork unitOfWork, IOptions<Configuracoes> options, IMapper mapper)
+        public UsuarioService(IUnitOfWork unitOfWork, IOptions<AppConfig> options, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _chavePrivada = options.Value.ChavePrivadaJwt;

@@ -1,15 +1,10 @@
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Hangfire;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ReservaHotel.Apresentation.Configuration;
-using Microsoft.Extensions.Hosting;
 using ReservaHotel.Data.DataAccessLayer;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Classes;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Interfaces;
 using ReservaHotel.Data.Database;
-using ReservaHotel.Data.Database.Entities;
 using ReservaHotel.Domain.Configuration;
 using ReservaHotel.Domain.Mapping;
 using ReservaHotel.Domain.Model.DTOs.Hotel;
@@ -40,7 +35,7 @@ var connectionString = builder.Configuration.GetConnectionString("HotelDatabase"
 
 
 builder.Services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(connectionString));
-builder.Services.Configure<Configuracoes>(builder.Configuration);
+builder.Services.Configure<AppConfig>(builder.Configuration);
 
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();
 builder.Services.AddScoped<IQuartoRepository, QuartoRepository>();
@@ -66,6 +61,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.StartDashboard();
 RecurringJob.AddOrUpdate<IHangfireService>("Atualiza valor dólar", x => x.AtualizaValorDolar(), "0 12 * * 1-5");
+RecurringJob.AddOrUpdate<IHangfireService>("Atualiza diaria quarto", x => x.AtualizaPrecoQuartos(), "0 7-17/1 * * 1-5");
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<HotelDbContext>();
