@@ -21,9 +21,6 @@ namespace ReservaHotel.Data.Database.Entities.Configurations
             builder.Property(q => q.Numero)
                 .IsRequired();
 
-            builder.Property(q => q.ValorDolar)
-                .IsRequired()
-                .HasColumnType("real");
 
             builder.Property(q => q.Ocupacao)
                 .IsRequired()
@@ -47,14 +44,10 @@ namespace ReservaHotel.Data.Database.Entities.Configurations
                 .HasColumnType("real");
 
             builder.Property(q => q.UltimaAtualizacaoPreco)
-                .IsRequired()
-                .HasColumnType("datetime2(7)")
-                .HasDefaultValueSql("GETDATE()");
+                .HasColumnType("datetime2(7)");
 
             builder.Property(q => q.DataCadastro).IsRequired().HasDefaultValueSql("GETDATE()");
-            builder.Property(q => q.ValorReal)
-                .IsRequired()
-                .HasColumnType("real");
+
 
             builder.HasOne(q => q.Hotel).WithMany(h => h.Quartos).HasForeignKey(q => q.HotelId);
         }

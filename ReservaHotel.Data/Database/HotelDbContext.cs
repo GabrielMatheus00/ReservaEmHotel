@@ -19,6 +19,7 @@ namespace ReservaHotel.Data.Database
 
         DbSet<Usuario> Usuarios { get; set; }
 
+        DbSet<CotacaoMoeda> CotacoesMoedas { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

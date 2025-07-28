@@ -3,8 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Model\Enums\**" />
+    <EmbeddedResource Remove="Model\Enums\**" />
+    <None Remove="Model\Enums\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
@@ -12,9 +17,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ReservaHotel.Data\ReservaHotel.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Model\Enums\" />
   </ItemGroup>
 </Project>

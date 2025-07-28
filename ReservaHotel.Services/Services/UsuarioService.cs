@@ -60,7 +60,7 @@ namespace ReservaHotel.Services.Services
             try
             {
                 string senhaCriptografada = GeraHashDaSenha(dto.Senha);
-                Usuario? usuario = _unitOfWork.UsuarioRepository.BuscarUm(u => u.Ativo && (u.Login == dto.Login || u.Email == dto.Login) && u.Senha == senhaCriptografada);
+                Usuario usuario = _unitOfWork.UsuarioRepository.BuscarUm(u => u.Ativo && (u.Login == dto.Login || u.Email == dto.Login) && u.Senha == senhaCriptografada);
                 if (usuario is null)
                     throw new ArgumentException("Não foi possível realizar o login. Por favor verifique as credenciais");
                 this.GeraToken(usuario, ref resposta);
@@ -83,7 +83,7 @@ namespace ReservaHotel.Services.Services
 
         private void GeraToken(Usuario usuario, ref ResponseBase<string> resposta)
         {
-            SecurityToken? token;
+            SecurityToken token;
             try
             {
                 JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();

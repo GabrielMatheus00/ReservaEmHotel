@@ -1,14 +1,19 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Hangfire;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReservaHotel.Apresentation.Configuration;
+using Microsoft.Extensions.Hosting;
 using ReservaHotel.Data.DataAccessLayer;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Classes;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Interfaces;
 using ReservaHotel.Data.Database;
+using ReservaHotel.Data.Database.Entities;
+using ReservaHotel.Domain.Configuration;
 using ReservaHotel.Domain.Mapping;
-using ReservaHotel.Domain.Model.DTOs;
-using ReservaHotel.Extensions.Extensions;
+using ReservaHotel.Domain.Model.DTOs.Hotel;
+using ReservaHotel.Extensions.Extensions.Hangfire;
 using ReservaHotel.Extensions.Validators.Hotel;
 using ReservaHotel.Services.Services;
 using ReservaHotel.Services.Services.Interfaces;
@@ -19,7 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-builder.Services.AddFluentValidationAutoValidation();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(cfg =>
@@ -36,7 +41,16 @@ var connectionString = builder.Configuration.GetConnectionString("HotelDatabase"
 
 builder.Services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.Configure<Configuracoes>(builder.Configuration);
-builder.Services.InjecaoDeDependencia();
+
+builder.Services.AddScoped<IHotelRepository, HotelRepository>();
+builder.Services.AddScoped<IQuartoRepository, QuartoRepository>();
+builder.Services.AddScoped<IHotelService, HotelService>();
+builder.Services.AddScoped<IQuartoService, QuartoService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IValidator<AddHotelDTO>, AddHotelValidator>();
+builder.Services.AddScoped<IHangfireService, HangfireService>();
+builder.Services.ConfigHangfireServer(connectionString);
+
 
 var app = builder.Build();
 
@@ -49,6 +63,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 app.MapControllers();
+app.StartDashboard();
+RecurringJob.AddOrUpdate<IHangfireService>("Atualiza valor dólar", x => x.AtualizaValorDolar(), "0 12 * * 1-5");
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<HotelDbContext>();
+    await db.Database.MigrateAsync();
+}
+
 app.Run();

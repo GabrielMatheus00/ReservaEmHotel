@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReservaHotel.Data.Database;
 
@@ -11,9 +12,11 @@ using ReservaHotel.Data.Database;
 namespace ReservaHotel.Data.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250704020621_Altera_Nome_Campos_Diaria")]
+    partial class Altera_Nome_Campos_Diaria
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,35 +24,6 @@ namespace ReservaHotel.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ReservaHotel.Data.Database.Entities.CotacaoMoeda", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("CotacaoCompra")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("CotacaoVenda")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataCotacao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Moeda")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CotacoesMoedas");
-                });
 
             modelBuilder.Entity("ReservaHotel.Data.Database.Entities.Hotel", b =>
                 {
@@ -112,13 +86,8 @@ namespace ReservaHotel.Data.Migrations
                         .HasColumnType("nvarchar(70)");
 
                     b.Property<string>("Login")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nome")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("100");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Senha")
                         .IsRequired()
@@ -176,8 +145,10 @@ namespace ReservaHotel.Data.Migrations
                     b.Property<int>("TipoQuarto")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("UltimaAtualizacaoPreco")
-                        .HasColumnType("datetime2(7)");
+                    b.Property<DateTime>("UltimaAtualizacaoPreco")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(7)")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.HasKey("Id");
 

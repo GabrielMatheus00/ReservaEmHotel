@@ -1,11 +1,9 @@
-﻿namespace ReservaHotel.Domain.Model.DTOs
+﻿namespace ReservaHotel.Domain.Model.DTOs.Hotel
 {
-    public class AddUpdateHotelDTO
+    public class AddHotelDTO
     {
         public string Nome { get; set; }
         public int Estrelas { get; set; }
         public int Andares { get; set; }
-        public Guid Id { get; set; }
-
     }
 }

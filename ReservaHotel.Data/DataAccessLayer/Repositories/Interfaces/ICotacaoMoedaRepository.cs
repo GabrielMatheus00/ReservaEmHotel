@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ReservaHotel.Data.DataAccessLayer.Repositories.Interfaces
 {
-    public interface IHotelRepository:IRepositoryBase<Hotel>
+    public interface ICotacaoMoedaRepository:IRepositoryBase<CotacaoMoeda>
     {
-        public Hotel BuscaHotelComQuartos(Guid hotelId);
+        public CotacaoMoeda BuscaCotacaoMaisRecente();
     }
 }
