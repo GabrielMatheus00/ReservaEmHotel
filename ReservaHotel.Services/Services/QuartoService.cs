@@ -83,7 +83,7 @@ namespace ReservaHotel.Services.Services
                  var validacao = new AddUpdateQuartoValidator(editando:true).Validate(dto);
                 if (!validacao.IsValid)
                     throw new ValidacaoException(validacao.Errors);
-                Quarto? quarto = _unitOfWork.QuartoRepository.BuscarPorId(dto.Id);
+                Quarto quarto = _unitOfWork.QuartoRepository.BuscarPorId(dto.Id);
                 if (quarto == null)
                     throw new Exception("Quarto não encontrado");
                 ValidaAddUpdateQuarto(dto, quarto);

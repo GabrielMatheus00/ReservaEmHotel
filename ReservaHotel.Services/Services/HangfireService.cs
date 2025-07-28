@@ -46,7 +46,7 @@ namespace ReservaHotel.Extensions.Extensions.Hangfire
                         return;
                     CotacaoMoeda cotacao = new CotacaoMoeda("Dolar", dataCotacao, resultado.CotacaoCompra, resultado.CotacaoVenda);
                     _unitOfWork.CotacaoMoedaRepository.Adicionar(cotacao);
-                    _unitOfWork.SalvarAlteracoes();
+                    await _unitOfWork.SalvarAlteracoes();
                     return;
 
                 }

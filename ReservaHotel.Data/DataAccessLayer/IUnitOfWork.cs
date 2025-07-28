@@ -14,7 +14,6 @@ namespace ReservaHotel.Data.DataAccessLayer
 
         IUsuarioRepository UsuarioRepository { get; }
         ICotacaoMoedaRepository CotacaoMoedaRepository { get; }
-        void SalvarAlteracoes();
         Task SalvarAlteracoes();
     }
 }
