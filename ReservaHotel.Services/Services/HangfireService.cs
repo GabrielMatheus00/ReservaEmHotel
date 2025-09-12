@@ -1,5 +1,7 @@
-﻿using Hangfire;
+﻿
+using Hangfire;
 using Hangfire.Common;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
 using Newtonsoft.Json;
@@ -9,6 +11,7 @@ using ReservaHotel.Data.Database;
 using ReservaHotel.Data.Database.Entities;
 using ReservaHotel.Domain.Configuration;
 using ReservaHotel.Domain.Response;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +25,13 @@ namespace ReservaHotel.Extensions.Extensions.Hangfire
         private readonly string _UrlBACEN;
         private readonly AppConfig _config;
         private readonly IUnitOfWork _unitOfWork;
-        public HangfireService(IOptions<AppConfig> config, IUnitOfWork unitOfWork)
+        private readonly ILogger<HangfireService> _logger;
+        public HangfireService(IOptions<AppConfig> config, IUnitOfWork unitOfWork, ILogger<HangfireService> logger)
         {
             _config = config.Value;
             _UrlBACEN = _config.UrlBACEN;
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
         public async Task AtualizaValorDolar()
         {
@@ -35,6 +40,7 @@ namespace ReservaHotel.Extensions.Extensions.Hangfire
                 using HttpClient httpClient = new HttpClient();
                 httpClient.BaseAddress = new Uri(_UrlBACEN);
                 string data = DateTime.Now.ToString("MM-dd-yyyy");
+                throw new ArgumentException("Teste do gabriel", "inner exception");
                 var requisicao = await httpClient.GetAsync($"CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='{data}'&$top=1&$format=json");
                 if (requisicao is null || !requisicao.IsSuccessStatusCode) throw new Exception("Não foi possível conectar a API da Bacen");
                 var resposta = await requisicao.Content.ReadAsStringAsync();
@@ -58,7 +64,8 @@ namespace ReservaHotel.Extensions.Extensions.Hangfire
             }
             catch(Exception ex)
             {
-
+                _logger.LogError(ex, string.Empty, null);
+                _logger.LogInformation("aloo");
             }
         }
         public async Task AtualizaPrecoQuartos()
@@ -90,7 +97,7 @@ namespace ReservaHotel.Extensions.Extensions.Hangfire
             }
             catch(Exception ex)
             {
-
+                _logger.LogError(ex, string.Empty, null);
             }
         }
     }

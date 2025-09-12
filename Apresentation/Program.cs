@@ -12,16 +12,20 @@ using ReservaHotel.Extensions.Extensions.Hangfire;
 using ReservaHotel.Extensions.Validators.Hotel;
 using ReservaHotel.Services.Services;
 using ReservaHotel.Services.Services.Interfaces;
+using Serilog;
 using System.Reflection;
 using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddAutoMapper(cfg =>
 {
     var executingAssembly = Assembly.GetExecutingAssembly();

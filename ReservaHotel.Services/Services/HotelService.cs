@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using ReservaHotel.Data.DataAccessLayer;
 using ReservaHotel.Data.Database;
 using ReservaHotel.Data.Database.Entities;
 using ReservaHotel.Data.ResponseMapping;
 using ReservaHotel.Domain.Model.DTOs.Hotel;
 using ReservaHotel.Domain.Model.DTOs.Quarto;
+using ReservaHotel.Extensions.Extensions;
 using ReservaHotel.Services.Services.Interfaces;
+using Serilog.Core;
 
 namespace ReservaHotel.Services.Services
 {
@@ -14,10 +17,12 @@ namespace ReservaHotel.Services.Services
 
         public readonly IUnitOfWork _unitOfWork;
         public readonly IMapper _mapper;
-        public HotelService(IUnitOfWork unitOfWork, IMapper mapper)
+        private ILogger<HotelService> _logger;
+        public HotelService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<HotelService> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
         public ResponseBase<Guid> AdicionaHotel(AddHotelDTO dto)
         {
@@ -36,6 +41,7 @@ namespace ReservaHotel.Services.Services
             {
                 response.Data = Guid.Empty;
                 response.AddError(ex.Message);
+                _logger.LogFormatado(ex, dto, LogLevel.Error);
             }
             return response;
         }
@@ -61,6 +67,7 @@ namespace ReservaHotel.Services.Services
             {
                 response.Data = null;
                 response.AddError(ex.Message);
+                _logger.LogFormatado(ex, id, LogLevel.Error);
             }
             return response;
             
@@ -79,6 +86,7 @@ namespace ReservaHotel.Services.Services
             {
                 response.Data = null;
                 response.AddError(ex.Message);
+                _logger.LogFormatado(ex,logLevel:LogLevel.Error);
             }
             return response;
         }
@@ -122,6 +130,7 @@ namespace ReservaHotel.Services.Services
             {
                 response.Data = Guid.Empty;
                 response.AddError(ex.Message);
+                _logger.LogFormatado(ex, id, LogLevel.Error);
             }
             return response;
         }
