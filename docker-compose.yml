@@ -3,22 +3,26 @@ services:
         image: mcr.microsoft.com/mssql/server:2022-latest
         container_name: "sql-server"
         environment:
-            MSSQL_SA_PASSWORD: "Your_password123"
+            MSSQL_SA_PASSWORD: "N^@19j9m_Fb3"
             ACCEPT_EULA: "Y"
         ports:
             - "1433:1433"
         networks: 
             - "hoteis-rede"
         volumes: 
-            - sql-db:source/volumes/ 
-   
+            - sql-db-hotel:/app/volumes/ 
+        healthcheck:
+          test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost, 1433", "-U", "sa", "-P", "N^@19j9m_Fb3!", "-Q", "SELECT 1"]
+          interval: 10s
+          retries: 5
+          start_period: 10s
         
     app:
         build:
             context: .
             dockerfile: Dockerfile
         environment:
-             ConnectionStrings__HotelDatabase: Server=sql-server;Database=Hoteis;User Id=sa;Password=Your_password123;TrustServerCertificate=True;Trusted_Connection=False;
+             ConnectionStrings__HotelDatabase: Server=sql-server;Database=Hoteis;User Id=sa;Password=N^@19j9m_Fb3;TrustServerCertificate=True;Trusted_Connection=False;
         container_name: hoteis-api
         depends_on:
             - sql-server
