@@ -1,6 +1,7 @@
 using FluentValidation;
 using Hangfire;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using ReservaHotel.Data.DataAccessLayer;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Classes;
 using ReservaHotel.Data.DataAccessLayer.Repositories.Interfaces;
@@ -33,12 +34,18 @@ builder.Services.AddAutoMapper(cfg =>
     {
         typeof(HotelMapping)
     });
-}
+}   
 );
 var connectionString = builder.Configuration.GetConnectionString("HotelDatabase");
+builder.Services.AddDbContext<HotelDbContext>(options =>
+{
+    options.UseSqlServer(connectionString, sqlOpts =>
+    {
+        sqlOpts.EnableRetryOnFailure();
+    });
 
+});
 
-builder.Services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.Configure<AppConfig>(builder.Configuration);
 
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();

@@ -39,8 +39,7 @@ namespace ReservaHotel.Extensions.Extensions.Hangfire
             {
                 using HttpClient httpClient = new HttpClient();
                 httpClient.BaseAddress = new Uri(_UrlBACEN);
-                string data = DateTime.Now.ToString("MM-dd-yyyy");
-                throw new ArgumentException("Teste do gabriel", "inner exception");
+                string data = DateTime.UtcNow.AddHours(-3).ToString("MM-dd-yyyy");
                 var requisicao = await httpClient.GetAsync($"CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='{data}'&$top=1&$format=json");
                 if (requisicao is null || !requisicao.IsSuccessStatusCode) throw new Exception("Não foi possível conectar a API da Bacen");
                 var resposta = await requisicao.Content.ReadAsStringAsync();
@@ -65,7 +64,6 @@ namespace ReservaHotel.Extensions.Extensions.Hangfire
             catch(Exception ex)
             {
                 _logger.LogError(ex, string.Empty, null);
-                _logger.LogInformation("aloo");
             }
         }
         public async Task AtualizaPrecoQuartos()
