@@ -18,7 +18,7 @@ namespace ReservaHotel.Apresentation.Controllers
             _quartoService = quartoService;
         }
 
-        [HttpPost("cadastro")]
+        [HttpPost]
         public IActionResult CadastraHotel(AddHotelDTO dto)
         {
             var response = _hotelService.AdicionaHotel(dto);
@@ -53,7 +53,7 @@ namespace ReservaHotel.Apresentation.Controllers
             return NotFound();
         }
 
-        [HttpPut("/atualizacao")]
+        [HttpPut]
         public IActionResult EditaHotel(UpdateHotelDTO dto)
         {
             var response = _hotelService.EditaHotel(dto);
