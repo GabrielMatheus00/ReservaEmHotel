@@ -39,7 +39,7 @@ builder.Services.AddAutoMapper(cfg =>
 var connectionString = builder.Configuration.GetConnectionString("HotelDatabase");
 builder.Services.AddDbContext<HotelDbContext>(options =>
 {
-    options.UseSqlServer(connectionString, sqlOpts =>
+    options.UseNpgsql(connectionString, sqlOpts =>
     {
         sqlOpts.EnableRetryOnFailure();
     });
