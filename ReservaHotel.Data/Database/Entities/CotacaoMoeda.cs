@@ -13,6 +13,7 @@ namespace ReservaHotel.Data.Database.Entities
         public decimal CotacaoCompra { get; set; }
         public decimal? CotacaoVenda { get; set; }
         public DateTime DataCotacao { get; set; }
+        public ICollection<Quarto> Quartos { get; set; }
 
         public CotacaoMoeda(string moeda, DateTime dataCotacao, decimal cotacaoCompra, decimal? cotacaoVenda = null)
         {

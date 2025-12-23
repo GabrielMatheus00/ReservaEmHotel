@@ -47,9 +47,10 @@ namespace ReservaHotel.Data.Database.Entities.Configurations
                 .HasColumnType("datetime2(7)");
 
             builder.Property(q => q.DataCadastro).IsRequired().HasDefaultValueSql("GETDATE()");
-
+            builder.Property(q => q.CotacaoId);
 
             builder.HasOne(q => q.Hotel).WithMany(h => h.Quartos).HasForeignKey(q => q.HotelId);
+            builder.HasOne(q => q.Cotacacao).WithMany(c => c.Quartos).HasForeignKey(q => q.CotacaoId);
         }
     }
 }

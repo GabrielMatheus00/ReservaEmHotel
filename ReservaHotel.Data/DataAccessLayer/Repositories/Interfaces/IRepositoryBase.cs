@@ -16,5 +16,6 @@ namespace ReservaHotel.Data.DataAccessLayer.Repositories.Interfaces
         T? BuscarPorId(Guid id);
         IEnumerable<T> BuscarTodos(Expression<Func<T, bool>> where);
         T? BuscarUm(Expression<Func<T, bool>> where);
+        List<T> BuscarPaginado(Expression<Func<T, bool>> where, int skip = 0, int take = 50);
     }
 }

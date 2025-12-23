@@ -1,6 +1,9 @@
 ﻿using Hangfire;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using ReservaHotel.Services.Authorizators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +32,10 @@ namespace ReservaHotel.Extensions.Extensions.Hangfire
         }
         public static void StartDashboard(this WebApplication app)
         {
-            app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireAuthorization() }
+            });
         }
         private static void AddTasks()
         {

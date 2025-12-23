@@ -51,5 +51,9 @@ namespace ReservaHotel.Data.DataAccessLayer.Repositories.Classes
             }    
             return false;
         }
+        public List<T> BuscarPaginado(Expression<Func<T, bool>> where, int skip = 0, int take = 50)
+        {
+            return _dbContext.Set<T>().Where(where).Skip(skip).Take(take).ToList();
+        }
     }
 }

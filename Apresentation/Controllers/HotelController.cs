@@ -18,8 +18,8 @@ namespace ReservaHotel.Apresentation.Controllers
             _quartoService = quartoService;
         }
 
-        [HttpPost("cadastro")]
-        public IActionResult CadastraHotel(AddHotelDTO dto)
+        [HttpPost]
+        public IActionResult Cadastra(AddHotelDTO dto)
         {
             var response = _hotelService.AdicionaHotel(dto);
             if (response.Success)
@@ -27,7 +27,7 @@ namespace ReservaHotel.Apresentation.Controllers
             return BadRequest(response);
         }
         [HttpGet]
-        public IActionResult BuscarHoteis()
+        public IActionResult Busca()
         {
             var response = _hotelService.BuscaHoteis();
             if (response.Success)
@@ -36,7 +36,7 @@ namespace ReservaHotel.Apresentation.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult BuscaHotel(Guid id)
+        public IActionResult Busca(Guid id)
         {
             var response = _hotelService.BuscaHotel(id);
             if (response.Success)
@@ -45,7 +45,7 @@ namespace ReservaHotel.Apresentation.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult RemoveHotel(Guid id)
+        public IActionResult Remove(Guid id)
         {
             var response = _hotelService.RemoveHotel(id);
             if (response.Success)
@@ -53,8 +53,8 @@ namespace ReservaHotel.Apresentation.Controllers
             return NotFound();
         }
 
-        [HttpPut("/atualizacao")]
-        public IActionResult EditaHotel(UpdateHotelDTO dto)
+        [HttpPatch]
+        public IActionResult Edita(UpdateHotelDTO dto)
         {
             var response = _hotelService.EditaHotel(dto);
             if(response.Success)

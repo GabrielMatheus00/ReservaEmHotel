@@ -1,22 +1,19 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using ReservaHotel.Apresentation.Configuration;
 using ReservaHotel.Data.DataAccessLayer;
-using ReservaHotel.Data.DataAccessLayer.Repositories.Classes;
 using ReservaHotel.Data.Database.Entities;
 using ReservaHotel.Data.ResponseMapping;
+using ReservaHotel.Domain.Configuration;
 using ReservaHotel.Domain.Model.DTOs.Usuario;
+using ReservaHotel.Extensions.Extensions;
 using ReservaHotel.Services.Services.Interfaces;
-using System;
-using System.Collections.Generic;
+using Serilog.Core;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ReservaHotel.Services.Services
 {
@@ -26,12 +23,14 @@ namespace ReservaHotel.Services.Services
         private readonly string _chavePrivada;
         private readonly int _horasExpiracaoToken;
         private readonly IMapper _mapper;
-        public UsuarioService(IUnitOfWork unitOfWork, IOptions<Configuracoes> options, IMapper mapper)
+        private readonly ILogger<UsuarioService> _logger;
+        public UsuarioService(IUnitOfWork unitOfWork, IOptions<AppConfig> options, IMapper mapper, ILogger<UsuarioService> logger)
         {
             _unitOfWork = unitOfWork;
             _chavePrivada = options.Value.ChavePrivadaJwt;
             _horasExpiracaoToken = Convert.ToInt32(options.Value.HorasExpiracaoToken);
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<ResponseBase<Guid>> CadastroUsuario(CadastroUsuarioDTO dto)
@@ -39,6 +38,8 @@ namespace ReservaHotel.Services.Services
             ResponseBase<Guid> resposta = new ResponseBase<Guid>();
             try
             {
+                if (_unitOfWork.UsuarioRepository.BuscarUm(u => u.Email == dto.Email || u.Login == dto.Login) != null)
+                    throw new Exception("Já existe um usuário com login ou email utilizado");
                 string hashSenha = GeraHashDaSenha(dto.Senha);
                 Usuario usuario = _mapper.Map<Usuario>(dto);
                 _unitOfWork.UsuarioRepository.Adicionar(usuario);
@@ -48,6 +49,8 @@ namespace ReservaHotel.Services.Services
             }
             catch(Exception ex)
             {
+                dto.Senha = "******";
+                _logger.LogFormatado(ex, dto, LogLevel.Error);
                 resposta.AddError(ex.Message);
             }
            

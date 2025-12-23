@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReservaHotel.Data.Database;
 
@@ -11,9 +12,11 @@ using ReservaHotel.Data.Database;
 namespace ReservaHotel.Data.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250728230426_Add_FK_Cotacao_Quarto")]
+    partial class Add_FK_Cotacao_Quarto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,11 +160,11 @@ namespace ReservaHotel.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<decimal>("DiariaDolar")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("DiariaDolar")
+                        .HasColumnType("real");
 
-                    b.Property<decimal>("DiariaReal")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("DiariaReal")
+                        .HasColumnType("real");
 
                     b.Property<Guid>("HotelId")
                         .HasColumnType("uniqueidentifier");
