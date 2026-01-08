@@ -17,7 +17,7 @@ namespace ReservaHotel.Data.Database.Entities.Configurations
             builder.Property(h => h.NumeroQuartos).HasDefaultValue(0);
             builder.Property(h => h.Ativo).IsRequired().HasDefaultValue(true);
             builder.Property(h => h.Andares).HasDefaultValue(0);
-            builder.Property(h => h.DataCadastro).IsRequired().HasDefaultValueSql("GETDATE()");
+            builder.Property(h => h.DataCadastro).IsRequired().HasDefaultValueSql("NOW()");
             builder.HasMany(h => h.Quartos).WithOne(q => q.Hotel).HasForeignKey(a => a.HotelId);
             
         }

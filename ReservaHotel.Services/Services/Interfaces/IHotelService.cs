@@ -13,14 +13,11 @@ namespace ReservaHotel.Services.Services.Interfaces
 {
     public interface IHotelService
     {
-        public ResponseBase<Guid> AdicionaHotel(AddHotelDTO hotel);
-        public ResponseBase<string> EditaHotel(UpdateHotelDTO hotel);
-        public ResponseBase<Guid> RemoveHotel(Guid id);
-        public ResponseBase<Hotel> BuscaHotel(Guid id);
-
-
-
-        public ResponseBase<List<Hotel>> BuscaHoteis();
+        public ResponseBase<Guid> Adiciona(AddHotelDTO hotel);
+        public ResponseBase<string> Edita(UpdateHotelDTO hotel);
+        public ResponseBase<Guid> Remove(Guid id);
+        public ResponseBase<Hotel> Busca(Guid id);
+        public ResponseBase<List<Hotel>> Busca();
 
     }
 }

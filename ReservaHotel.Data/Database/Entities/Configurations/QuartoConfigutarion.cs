@@ -24,7 +24,7 @@ namespace ReservaHotel.Data.Database.Entities.Configurations
 
             builder.Property(q => q.Ocupacao)
                 .IsRequired()
-                .HasColumnType("nvarchar(max)");
+                .HasMaxLength(500);
 
             builder.Property(q => q.HotelId)
                 .IsRequired();
@@ -40,13 +40,11 @@ namespace ReservaHotel.Data.Database.Entities.Configurations
                 .IsRequired();
 
             builder.Property(q => q.Tamanho)
-                .IsRequired()
-                .HasColumnType("real");
+                .IsRequired();
 
-            builder.Property(q => q.UltimaAtualizacaoPreco)
-                .HasColumnType("datetime2(7)");
+            builder.Property(q => q.UltimaAtualizacaoPreco);
 
-            builder.Property(q => q.DataCadastro).IsRequired().HasDefaultValueSql("GETDATE()");
+            builder.Property(q => q.DataCadastro).IsRequired().HasDefaultValueSql("NOW()");
             builder.Property(q => q.CotacaoId);
 
             builder.HasOne(q => q.Hotel).WithMany(h => h.Quartos).HasForeignKey(q => q.HotelId);

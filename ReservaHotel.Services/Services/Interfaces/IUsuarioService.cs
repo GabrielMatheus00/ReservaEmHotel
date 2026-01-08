@@ -1,5 +1,4 @@
-﻿using Azure;
-using ReservaHotel.Data.ResponseMapping;
+﻿using ReservaHotel.Data.ResponseMapping;
 using ReservaHotel.Domain.Model.DTOs.Usuario;
 using System;
 using System.Collections.Generic;

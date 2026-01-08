@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace ReservaHotel.Domain.Model.DTOs.Quarto
 {
-    public class UpdateQuartoDTO
+    public record UpdateQuartoDTO
     {
-        public int Numero { get; set; }
-        public float Tamanho { get; set; }
-        public int Andar { get; set; }
-        public string Ocupacao { get; set; }
-        public Guid HotelId { get; set; }
-        public TipoQuarto TipoQuarto { get; set; }
-        public float DiariaDolar { get; set; }
+        public Guid Id { get; }
+        public int? Numero { get; }
+        public float? Tamanho { get; }
+        public int? Andar { get; }
+        public string Ocupacao { get; }
+        public Guid HotelId { get; }
+        public TipoQuarto? TipoQuarto { get;}
+        public float? DiariaDolar { get;}
     }
 }

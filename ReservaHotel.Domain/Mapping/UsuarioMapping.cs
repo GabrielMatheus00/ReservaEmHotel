@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ReservaHotel.Data.Database.Entities;
-using ReservaHotel.Data.Migrations;
 using ReservaHotel.Domain.Model.DTOs.Usuario;
 using System;
 using System.Collections.Generic;

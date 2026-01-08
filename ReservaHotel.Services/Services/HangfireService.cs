@@ -3,7 +3,6 @@ using Hangfire;
 using Hangfire.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.Identity.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ReservaHotel.Data.DataAccessLayer;
