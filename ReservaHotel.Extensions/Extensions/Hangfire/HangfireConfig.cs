@@ -1,14 +1,8 @@
 ﻿using Hangfire;
-using Hangfire.SqlServer;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using ReservaHotel.Services.Authorizators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReservaHotel.Extensions.Extensions.Hangfire
 {
@@ -19,7 +13,7 @@ namespace ReservaHotel.Extensions.Extensions.Hangfire
         {
             services.AddHangfire(config =>
             {
-                config.UseSqlServerStorage(connectionString)
+                config.UsePostgreSqlStorage(connectionString)
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
                 .UseSimpleAssemblyNameTypeSerializer()
                 .UseRecommendedSerializerSettings();

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ReservaHotel.Domain.Model.DTOs.Hotel;
 
-public class UpdateHotelDTO
+public record UpdateHotelDTO
 {
-    public Guid Id { get; set; }
-    public string? Nome { get; set; }
-    public int? Estrelas { get; set; }
-    public int? Andares { get; set; }
+    public Guid Id { get;}
+    public string? Nome { get;}
+    public int? Estrelas { get; }
+    public int? Andares { get; }
 }

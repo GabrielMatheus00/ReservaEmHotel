@@ -21,7 +21,7 @@ namespace ReservaHotel.Apresentation.Controllers
         [HttpPost]
         public IActionResult Cadastra(AddHotelDTO dto)
         {
-            var response = _hotelService.AdicionaHotel(dto);
+            var response = _hotelService.Adiciona(dto);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);
@@ -29,7 +29,7 @@ namespace ReservaHotel.Apresentation.Controllers
         [HttpGet]
         public IActionResult Busca()
         {
-            var response = _hotelService.BuscaHoteis();
+            var response = _hotelService.Busca();
             if (response.Success)
                 return Ok(response);
             return NotFound(response);
@@ -38,7 +38,7 @@ namespace ReservaHotel.Apresentation.Controllers
         [HttpGet("{id}")]
         public IActionResult Busca(Guid id)
         {
-            var response = _hotelService.BuscaHotel(id);
+            var response = _hotelService.Busca(id);
             if (response.Success)
                 return Ok(response);
             return NotFound(response);
@@ -47,7 +47,7 @@ namespace ReservaHotel.Apresentation.Controllers
         [HttpDelete("{id}")]
         public IActionResult Remove(Guid id)
         {
-            var response = _hotelService.RemoveHotel(id);
+            var response = _hotelService.Remove(id);
             if (response.Success)
                 return NoContent();
             return NotFound();
@@ -56,13 +56,13 @@ namespace ReservaHotel.Apresentation.Controllers
         [HttpPatch]
         public IActionResult Edita(UpdateHotelDTO dto)
         {
-            var response = _hotelService.EditaHotel(dto);
+            var response = _hotelService.Edita(dto);
             if(response.Success)
                 return Ok(response);
             return BadRequest(response);
         }
         [HttpPost("quarto")]
-        public IActionResult CadastraQuarto(AddUpdateQuartoDTO dto)
+        public IActionResult CadastraQuarto(AddQuartoDTO dto)
         {
             var response = _quartoService.CadastraQuarto(dto);
             if (response.Success)
@@ -71,7 +71,7 @@ namespace ReservaHotel.Apresentation.Controllers
         }
 
         [HttpPatch("quarto")]
-        public IActionResult AtualizaQuarto(AddUpdateQuartoDTO dto) 
+        public IActionResult AtualizaQuarto(UpdateQuartoDTO dto) 
         {
             var response = _quartoService.EditaQuarto(dto);
             if (response.Success)

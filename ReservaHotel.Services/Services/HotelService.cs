@@ -24,7 +24,7 @@ namespace ReservaHotel.Services.Services
             _mapper = mapper;
             _logger = logger;
         }
-        public ResponseBase<Guid> AdicionaHotel(AddHotelDTO dto)
+        public ResponseBase<Guid> Adiciona(AddHotelDTO dto)
         {
             ResponseBase<Guid> response = new ResponseBase<Guid>();
             try
@@ -50,7 +50,7 @@ namespace ReservaHotel.Services.Services
         /// </summary>
         /// <param name="id">Id do hotel</param>
         /// <returns>O Hotel encontrado, ou null caso não encontre</returns>
-        public ResponseBase<Hotel> BuscaHotel(Guid id)
+        public ResponseBase<Hotel> Busca(Guid id)
         {
             ResponseBase<Hotel> response = new ResponseBase<Hotel>();
             try
@@ -73,7 +73,7 @@ namespace ReservaHotel.Services.Services
             
         }
 
-        public ResponseBase<List<Hotel>> BuscaHoteis()
+        public ResponseBase<List<Hotel>> Busca()
         {
             ResponseBase<List<Hotel>> response = new ResponseBase<List<Hotel>>();
             try
@@ -90,7 +90,7 @@ namespace ReservaHotel.Services.Services
             }
             return response;
         }
-        public ResponseBase<string> EditaHotel(UpdateHotelDTO dto)
+        public ResponseBase<string> Edita(UpdateHotelDTO dto)
         {
             var response = new ResponseBase<string>();
             try
@@ -112,7 +112,7 @@ namespace ReservaHotel.Services.Services
             return response;
         }
 
-        public ResponseBase<Guid> RemoveHotel(Guid id)
+        public ResponseBase<Guid> Remove(Guid id)
         {
             ResponseBase<Guid> response = new ResponseBase<Guid>();
             try

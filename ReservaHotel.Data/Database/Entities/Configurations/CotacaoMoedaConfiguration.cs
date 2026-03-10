@@ -14,7 +14,7 @@ namespace ReservaHotel.Data.Database.Entities.Configurations
         {
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Ativo).HasDefaultValue(true);
-            builder.Property(c => c.DataCadastro).HasDefaultValueSql("GETDATE()");
+            builder.Property(c => c.DataCadastro).HasDefaultValueSql("NOW()");
             builder.Property(c => c.DataCotacao).IsRequired();
             builder.Property(c => c.Moeda).IsRequired().HasMaxLength(50);
             builder.Property(c => c.CotacaoCompra).IsRequired();

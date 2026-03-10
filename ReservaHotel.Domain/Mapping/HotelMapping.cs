@@ -26,7 +26,7 @@ namespace ReservaHotel.Domain.Mapping
             #endregion
 
             #region Quarto
-            CreateMap<AddUpdateQuartoDTO, Quarto>()
+            CreateMap<AddQuartoDTO, Quarto>()
                 .ForMember(q => q.Numero, opts => opts.MapFrom((src, dest) => this.PreservaValor(src.Numero, dest.Numero)))
                 .ForMember(q => q.Tamanho, opts => opts.MapFrom((src, dest) => this.PreservaValor(src.Tamanho, dest.Tamanho)))
                 .ForMember(q => q.Ocupacao, opts => opts.MapFrom((src, dest) => this.PreservaValor(src.Ocupacao, dest.Ocupacao)))
