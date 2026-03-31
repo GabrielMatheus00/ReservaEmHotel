@@ -9,13 +9,13 @@ namespace ReservaHotel.Domain.Model.DTOs.Quarto
 {
     public record UpdateQuartoDTO
     {
-        public Guid Id { get; }
-        public int? Numero { get; }
-        public float? Tamanho { get; }
-        public int? Andar { get; }
-        public string Ocupacao { get; }
-        public Guid HotelId { get; }
-        public TipoQuarto? TipoQuarto { get;}
-        public float? DiariaDolar { get;}
+        public Guid Id { get; init; }
+        public int? Numero { get; init; }
+        public float? Tamanho { get; init; }
+        public int? Andar { get; init; }
+        public string Ocupacao { get; init; }
+        public Guid? HotelId { get; init;  }
+        public TipoQuarto? TipoQuarto { get; init; }
+        public float? DiariaDolar { get; init; }
     }
 }

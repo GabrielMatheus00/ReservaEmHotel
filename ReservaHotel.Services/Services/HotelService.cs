@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using MapsterMapper;
 using Microsoft.Extensions.Logging;
 using ReservaHotel.Data.DataAccessLayer;
 using ReservaHotel.Data.Database;
@@ -24,7 +24,7 @@ namespace ReservaHotel.Services.Services
             _mapper = mapper;
             _logger = logger;
         }
-        public ResponseBase<Guid> Adiciona(AddHotelDTO dto)
+        public async Task<ResponseBase<Guid>> Adiciona(AddHotelDTO dto)
         {
             ResponseBase<Guid> response = new ResponseBase<Guid>();
             try
@@ -33,7 +33,7 @@ namespace ReservaHotel.Services.Services
                 hotel.Id = Guid.NewGuid();
                 hotel.Ativo = true;
                 _unitOfWork.HotelRepository.Adicionar(hotel);
-                _unitOfWork.SalvarAlteracoes();
+                await _unitOfWork.SalvarAlteracoes();
                 response.Data = hotel.Id;
                 response.AddSuccess("Hotel cadastrado com sucesso");
             }
@@ -90,7 +90,7 @@ namespace ReservaHotel.Services.Services
             }
             return response;
         }
-        public ResponseBase<string> Edita(UpdateHotelDTO dto)
+        public async Task<ResponseBase<string>> Edita(UpdateHotelDTO dto)
         {
             var response = new ResponseBase<string>();
             try
@@ -100,7 +100,7 @@ namespace ReservaHotel.Services.Services
                     throw new Exception("Hotel não encontrado");
                 hotel = _mapper.Map(dto,hotel);
                 _unitOfWork.HotelRepository.Atualizar(hotel);
-                _unitOfWork.SalvarAlteracoes();
+                await _unitOfWork.SalvarAlteracoes();
 
             }
             catch(Exception ex)
@@ -112,7 +112,7 @@ namespace ReservaHotel.Services.Services
             return response;
         }
 
-        public ResponseBase<Guid> Remove(Guid id)
+        public async Task<ResponseBase<Guid>> Remove(Guid id)
         {
             ResponseBase<Guid> response = new ResponseBase<Guid>();
             try
@@ -120,7 +120,7 @@ namespace ReservaHotel.Services.Services
                 if (id == Guid.Empty)
                     throw new ArgumentNullException("É necessário informar o ID do Hotel");
                 var removido = _unitOfWork.HotelRepository.Remover(id);
-                _unitOfWork.SalvarAlteracoes();
+                await _unitOfWork.SalvarAlteracoes();
                 if (!removido)
                     throw new Exception();
                 response.Data = id;

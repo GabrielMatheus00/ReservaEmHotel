@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using Mapster;
 using ReservaHotel.Data.Database.Entities;
 using ReservaHotel.Domain.Model.DTOs.Usuario;
 using System;
@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace ReservaHotel.Domain.Mapping
 {
-    public class UsuarioMapping: Profile
+    public class UsuarioMapping : IRegister
     {
-        public UsuarioMapping()
+        public void Register(TypeAdapterConfig config)
         {
-            CreateMap<CadastroUsuarioDTO, Usuario>().ReverseMap();
-
+            config.NewConfig<CadastroUsuarioDTO, Usuario>()
+                .TwoWays();
         }
     }
 }

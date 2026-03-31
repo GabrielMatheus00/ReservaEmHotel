@@ -11,9 +11,9 @@ namespace ReservaHotel.Services.Services.Interfaces
 {
     public interface IQuartoService
     {
-        public ResponseBase<Guid> CadastraQuarto(AddQuartoDTO dto);
-        public ResponseBase<Guid> EditaQuarto(UpdateQuartoDTO dto);
-        public ResponseBase<Guid> RemoveQuarto(Guid id);
+        public Task<ResponseBase<Guid>> CadastraQuarto(AddQuartoDTO dto);
+        public Task<ResponseBase<Guid>> EditaQuarto(UpdateQuartoDTO dto);
+        public Task<ResponseBase<Guid>> RemoveQuarto(Guid id);
         public ResponseBase<Quarto> BuscaQuarto(Guid id);
 
         public ResponseBase<List<Quarto>> BuscaQuartosPorHotel(Guid hotelId);

@@ -13,9 +13,9 @@ namespace ReservaHotel.Services.Services.Interfaces
 {
     public interface IHotelService
     {
-        public ResponseBase<Guid> Adiciona(AddHotelDTO hotel);
-        public ResponseBase<string> Edita(UpdateHotelDTO hotel);
-        public ResponseBase<Guid> Remove(Guid id);
+        public Task<ResponseBase<Guid>> Adiciona(AddHotelDTO hotel);
+        public Task<ResponseBase<string>> Edita(UpdateHotelDTO hotel);
+        public Task<ResponseBase<Guid>> Remove(Guid id);
         public ResponseBase<Hotel> Busca(Guid id);
         public ResponseBase<List<Hotel>> Busca();
 

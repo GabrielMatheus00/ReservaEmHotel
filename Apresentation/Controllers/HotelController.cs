@@ -19,9 +19,9 @@ namespace ReservaHotel.Apresentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Cadastra(AddHotelDTO dto)
+        public async Task<IActionResult> Cadastra(AddHotelDTO dto)
         {
-            var response = _hotelService.Adiciona(dto);
+            var response = await _hotelService.Adiciona(dto);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);
@@ -45,43 +45,43 @@ namespace ReservaHotel.Apresentation.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Remove(Guid id)
+        public async Task<IActionResult> Remove(Guid id)
         {
-            var response = _hotelService.Remove(id);
+            var response = await _hotelService.Remove(id);
             if (response.Success)
                 return NoContent();
             return NotFound();
         }
 
         [HttpPatch]
-        public IActionResult Edita(UpdateHotelDTO dto)
+        public async Task<IActionResult> Edita(UpdateHotelDTO dto)
         {
-            var response = _hotelService.Edita(dto);
+            var response = await _hotelService.Edita(dto);
             if(response.Success)
                 return Ok(response);
             return BadRequest(response);
         }
         [HttpPost("quarto")]
-        public IActionResult CadastraQuarto(AddQuartoDTO dto)
+        public async Task<IActionResult> CadastraQuarto(AddQuartoDTO dto)
         {
-            var response = _quartoService.CadastraQuarto(dto);
+            var response = await _quartoService.CadastraQuarto(dto);
             if (response.Success)
                 return CreatedAtAction(nameof(CadastraQuarto), response.Data);
             return BadRequest(response);
         }
 
         [HttpPatch("quarto")]
-        public IActionResult AtualizaQuarto(UpdateQuartoDTO dto) 
+        public async Task<IActionResult> AtualizaQuarto(UpdateQuartoDTO dto) 
         {
-            var response = _quartoService.EditaQuarto(dto);
+            var response = await _quartoService.EditaQuarto(dto);
             if (response.Success)
                 return Ok(response);
             return BadRequest(response);
         }
         [HttpDelete("quarto/{id}")]
-        public IActionResult RemoveQuarto(Guid id)
+        public async Task<IActionResult> RemoveQuarto(Guid id)
         {
-            var response = _quartoService.RemoveQuarto(id);
+            var response = await _quartoService.RemoveQuarto(id);
             if(response.Success)    
                 return Ok(response);
             return BadRequest(response);

@@ -1,5 +1,7 @@
 using FluentValidation;
 using Hangfire;
+using Mapster;
+using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using ReservaHotel.Data.DataAccessLayer;
@@ -27,15 +29,10 @@ builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializ
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAutoMapper(cfg =>
-{
-    var executingAssembly = Assembly.GetExecutingAssembly();
-    cfg.AddMaps(new[]
-    {
-        typeof(HotelMapping)
-    });
-}   
-);
+var config = TypeAdapterConfig.GlobalSettings;
+config.Scan(Assembly.GetExecutingAssembly(), typeof(HotelMapping).Assembly);
+builder.Services.AddSingleton(config);
+builder.Services.AddScoped<IMapper, ServiceMapper>();
 var connectionString = builder.Configuration.GetConnectionString("HotelDatabase");
 builder.Services.AddDbContext<HotelDbContext>(options =>
 {
@@ -71,12 +68,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.StartDashboard();
-RecurringJob.AddOrUpdate<IHangfireService>("Atualiza valor dólar", x => x.AtualizaValorDolar(), "0 12 * * 1-5");
-RecurringJob.AddOrUpdate<IHangfireService>("Atualiza diaria quarto", x => x.AtualizaPrecoQuartos(), "0 7-17/1 * * 1-5");
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<HotelDbContext>();
     await db.Database.MigrateAsync();
 }
+RecurringJob.AddOrUpdate<IHangfireService>("Atualiza valor dólar", x => x.AtualizaValorDolar(), "0 12 * * 1-5");
+RecurringJob.AddOrUpdate<IHangfireService>("Atualiza diaria quarto", x => x.AtualizaPrecoQuartos(), "0 7-17/1 * * 1-5");
 
 app.Run();
